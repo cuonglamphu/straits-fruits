@@ -38,13 +38,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Copy files via SSH
+      - name: Set up SSH and copy files
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
+          mkdir -p ~/.ssh
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > id_rsa
           chmod 600 id_rsa
+          touch ~/.ssh/known_hosts
           ssh-keyscan -H 159.89.54.83 >> ~/.ssh/known_hosts
           rsync -avz -e "ssh -i id_rsa" --exclude='.git' ./ root@159.89.54.83:/var/www/
 
