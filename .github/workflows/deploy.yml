@@ -48,14 +48,14 @@ jobs:
           chmod 600 id_rsa
           touch ~/.ssh/known_hosts
           ssh-keyscan -H 159.89.54.83 >> ~/.ssh/known_hosts
-          rsync -avz -e "ssh -i id_rsa" --exclude='.git' ./ root@159.89.54.83:/var/www/
+          rsync -avz -e "ssh -i id_rsa" --exclude='.git' ./ root@159.89.54.83:/var/www/laravel
 
       - name: Deploy with Docker Compose
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           ssh -i id_rsa root@159.89.54.83 << 'EOF'
-          cd /var/www/
+          cd /var/www/laravel
           docker-compose down
           docker-compose up -d --build
           EOF
