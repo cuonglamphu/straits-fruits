@@ -47,10 +47,6 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    /**
-     * @group database
-     * Bài kiểm tra sử dụng cơ sở dữ liệu.
-     */
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
