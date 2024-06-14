@@ -1,0 +1,53 @@
+name: Deploy Laravel Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Run tests
+        run: vendor/bin/phpunit
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Copy files via SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > id_rsa
+          chmod 600 id_rsa
+          ssh-keyscan -H 159.89.54.83 >> ~/.ssh/known_hosts
+          rsync -avz -e "ssh -i id_rsa" --exclude='.git' ./ root@159.89.54.83:/var/www/
+
+      - name: Deploy with Docker Compose
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          ssh -i id_rsa root@159.89.54.83 << 'EOF'
+          cd /var/www/
+          docker-compose down
+          docker-compose up -d --build
+          EOF
