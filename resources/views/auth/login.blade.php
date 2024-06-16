@@ -2,10 +2,10 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <div class="content p-4" >
+    <div class="content" >
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-10 gap-4">
             <!-- New Accounts Section -->
-            <div class="col-span-1 md:col-span-5 p-6 md:px-20 lg:px-35 ">
+            <div class="col-span-1 md:col-span-5 p-4 md:px-20 lg:px-35 ">
                 <h4 class="text-2xl font-bold mb-2">New Accounts</h4>
                 <hr class="mb-4" />
                 <p class="mb-4">

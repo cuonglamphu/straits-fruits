@@ -19,6 +19,7 @@
     <script src="https://kit.fontawesome.com/a2d5e3b1ee.js" crossorigin="anonymous"></script>
     <!-- Styles Development
         <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -101,7 +102,7 @@
     </header>
 
     <main class="grid grid-cols-12 mb-auto">
-        <div class="col-span-12 ">
+        <div class="col-span-12 p-6">
             {{ $slot }}
         </div>
     </main>

@@ -1,5 +1,5 @@
 <x-guest-layout>
-<div class="content p-4 ">
+<div class="content p-4">
             <div class="grid grid-cols-1 md:grid-cols-3">
                 <div class="col-span-1 md:col-start-2">
                     <h4 class="text-2xl font-bold mb-2">New Application Registration</h4>
