@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
 use App\Interfaces\InvoiceRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreInvoiceRequest;
 

@@ -6,7 +6,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CategoryResource;
 use App\Interfaces\CategoryRepositoryInterface;
-use App\classes\ApiResponseClass;
+use App\Classes\ApiResponseClass;
 use Inertia\Response;
 
 class CategoryController extends Controller
