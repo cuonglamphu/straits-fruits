@@ -9,9 +9,9 @@ class UnitSeeder extends Seeder
     public function run():void
     {
         DB::table('units')->insert([
-            ['Unit_Name' => 'Unit A'],
-            ['Unit_Name' => 'Unit B'],
-            ['Unit_Name' => 'Unit C'],
+            ['Unit_Name' => 'pcs'],
+            ['Unit_Name' => 'kg'],
+            ['Unit_Name' => 'pack'],
             // Add more units as needed
         ]);
     }
