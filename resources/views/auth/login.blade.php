@@ -16,8 +16,7 @@
                     previously and assigned to your email
                     address. You can save your progress at
                     anytime and return by logging in with the
-                    username and password provided.
-                </p>
+                    username and password provided.</p>
 
                 @if (Route::has('register'))
                     <p class="text-center mt-4">

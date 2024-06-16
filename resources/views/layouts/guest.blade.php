@@ -71,22 +71,22 @@
         }
     </style>
 </head>
+{{-- <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">--}}
+{{-- <div>--}}
+{{-- <a href="/">--}}
+{{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" />--}}
+{{-- </a>--}}
+{{-- </div>--}}
+
+{{-- <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">--}}
+{{-- {{ $slot }}--}}
+{{-- </div>--}}
+{{-- </div>--}}
+
+<body class="font-sans text-gray-900 flex flex-col min-h-screen">
 
 
-<body class="font-sans text-gray-900 antialiased h-screen">
-    {{-- <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">--}}
-    {{-- <div>--}}
-    {{-- <a href="/">--}}
-    {{-- <x-application-logo class="w-20 h-20 fill-current text-gray-500" />--}}
-    {{-- </a>--}}
-    {{-- </div>--}}
-
-    {{-- <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">--}}
-    {{-- {{ $slot }}--}}
-    {{-- </div>--}}
-    {{-- </div>--}}
-
-    <header class="bg-white p-2 sticky flex flex-row">
+    <header class="bg-white p-2 ">
         <div class="bg-white grid grid-cols-12 gap-0 px-2 w-full">
             <div class="col-span-4 p-2">
                 <a href="/" class="flex">
@@ -101,7 +101,7 @@
         </div>
     </header>
 
-    <main class="grid grid-cols-12 mb-auto">
+    <main class="flex-grow grid grid-cols-12" >
         <div class="col-span-12 p-6">
             {{ $slot }}
         </div>
@@ -109,8 +109,7 @@
 
 
 
-
-    <footer id="footer" class=" footer-disclaimer p-4 fixed bottom-0 w-full">
+    <footer id="footer" class="footer-disclaimer mt-auto p-4">
         <!-- BEGIN container -->
         <div class=" grid grid-cols-12 gap-0 px-2">
             <div class="copyright col-span-12">
