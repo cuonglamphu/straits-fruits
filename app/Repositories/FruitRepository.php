@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Repositories;
+
 use App\Interfaces\FruitRepositoryInterface;
 use App\Models\Fruit;
+
 class FruitRepository implements FruitRepositoryInterface
 {
     /**
@@ -32,7 +34,7 @@ class FruitRepository implements FruitRepositoryInterface
      */
     public function getFruitByCategory(int $category_id)
     {
-        return Fruit::where('Invoice_ID', $category_id)->get();
+        return Fruit::where('category_id', $category_id)->get();
     }
 
     /**

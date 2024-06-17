@@ -12,17 +12,19 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('newinvoice')" :active="request()->routeIs('dashboard')">
+                        {{ __('New Invoice') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('categoryregis')" :active="request()->routeIs('dashboard')">
+                        {{ __('Category Registration') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('fruitregis')" :active="request()->routeIs('dashboard')">
+                        {{ __('Fruit Registration') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('manageinvoices')" :active="request()->routeIs('dashboard')">
+                        {{ __('Manage Invoices') }}
                     </x-nav-link>
                 </div>
-
             </div>
 
             <!-- Settings Dropdown -->
@@ -73,15 +75,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+
         </div>
 
 
@@ -96,7 +90,18 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
+                <x-responsive-nav-link :href="route('newinvoice')" :active="request()->routeIs('dashboard')">
+                    {{ __('New Invoice ') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('categoryregis')" :active="request()->routeIs('dashboard')">
+                    {{ __('Category Registration') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('fruitregis')" :active="request()->routeIs('dashboard')">
+                    {{ __('Fruit Registration') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('manageinvoices')" :active="request()->routeIs('dashboard')">
+                    {{ __('Manage Invoices') }}
+                </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

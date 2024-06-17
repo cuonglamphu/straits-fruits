@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
+use App\Http\Resources\FruitResource;
 use App\Interfaces\FruitRepositoryInterface;
 use App\Http\Requests\StoreFruitsRequest;
 use Illuminate\Support\Facades\DB;
+
 class FruitController extends Controller
 {
     private FruitRepositoryInterface $fruitRepository;
@@ -17,13 +19,13 @@ class FruitController extends Controller
     public function index()
     {
         $data = $this->fruitRepository->index();
-        Return ApiResponseClass::sendResponse($data, 'Fruits retrieved successfully', 200);
+        return ApiResponseClass::sendResponse(FruitResource::collection($data), 'Fruits retrieved successfully', 200);
     }
 
     public function show(int $id)
     {
         $data = $this->fruitRepository->show($id);
-        return ApiResponseClass::sendResponse($data, '', 200);
+        return ApiResponseClass::sendResponse(new FruitResource($data), '', 200);
     }
 
     public function store(StoreFruitsRequest $request)
@@ -38,7 +40,7 @@ class FruitController extends Controller
         try {
             $data = $this->fruitRepository->store($detail);
             DB::commit();
-            return ApiResponseClass::sendResponse($data, 'Fruit created successfully', 201);
+            return ApiResponseClass::sendResponse(new FruitResource($data), 'Fruit created successfully', 201);
         } catch (\Exception $e) {
             $errorMessage = $request->input('message', 'Failed to create fruit due to a server error.');
             ApiResponseClass::rollback($e, $errorMessage);
@@ -48,7 +50,6 @@ class FruitController extends Controller
     public function getFruitByCategory(int $id)
     {
         $data = $this->fruitRepository->getFruitByCategory($id);
-        return ApiResponseClass::sendResponse($data, '', 200);
+        return ApiResponseClass::sendResponse(FruitResource::collection($data), '', 200);
     }
-
 }

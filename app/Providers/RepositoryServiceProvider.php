@@ -13,13 +13,20 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'App\Interfaces\CategoryRepositoryInterface',
-            'App\Repositories\CategoryRepository');
+            'App\Repositories\CategoryRepository'
+        );
         $this->app->bind(
             'App\Interfaces\FruitRepositoryInterface',
-            'App\Repositories\FruitRepository');
+            'App\Repositories\FruitRepository'
+        );
         $this->app->bind(
             'App\Interfaces\InvoiceRepositoryInterface',
-            'App\Repositories\InvoiceRepository');
+            'App\Repositories\InvoiceRepository'
+        );
+        $this->app->bind(
+            'App\Interfaces\UnitRepositoryInterface',
+            'App\Repositories\UnitRepository'
+        );
     }
 
     /**
