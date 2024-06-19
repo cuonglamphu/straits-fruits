@@ -8,6 +8,8 @@ class FruitInvoice extends Model
 {
     protected $table = 'fruit_invoice';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'Invoice_ID', 'Fruit_ID', 'Quantity', 'Amount'
     ];

@@ -18,9 +18,9 @@ class StoreInvoiceRequest extends FormRequest
             'Customer_Name' => 'required|string|max:255',
             'Total' => 'required|numeric',
             'items' => 'required|array',
-            'items.*.fruit_id' => 'required|exists:fruits,id',
+            'items.*.Fruit_ID' => 'required|exists:fruits,id',
             'items.*.Quantity' => 'required|integer|min:1',
-            'items.*.Amount' => 'required|numeric'
+            'items.*.Amount' => 'required|numeric',
         ];
     }
 
@@ -35,8 +35,7 @@ class StoreInvoiceRequest extends FormRequest
             'Total.numeric' => 'The total must be a number.',
             'items.required' => 'The items are required.',
             'items.array' => 'The items must be an array.',
-            'items.*.fruit_id.required' => 'The fruit ID is required.',
-            'items.*.fruit_id.exists' => 'The selected fruit ID is invalid.',
+            'items.*.Fruit_ID.required' => 'The fruit ID is required.',
             'items.*.Quantity.required' => 'The quantity is required.',
             'items.*.Quantity.integer' => 'The quantity must be an integer.',
             'items.*.Quantity.min' => 'The quantity must be at least 1.',

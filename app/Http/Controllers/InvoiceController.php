@@ -24,6 +24,7 @@ class InvoiceController extends Controller
 
     public function show(int $id)
     {
+        $invoiceId = (int) $id;
         $data = $this->invoiceRepository->show($id);
         return ApiResponseClass::sendResponse($data, '', 200);
     }
@@ -36,40 +37,16 @@ class InvoiceController extends Controller
 
     public function store(StoreInvoiceRequest $request)
     {
-        $detail = [
-            'Customer_Name' => $request->Customer_Name,
-            'Total' => $request->Total,
-            'fruits' => $request->fruits,
-        ];
-        //fruit invoice
-        DB::beginTransaction();
-        try {
-            $data = $this->invoiceRepository->store($detail);
-            DB::commit();
-            return ApiResponseClass::sendResponse($data, 'Invoice created successfully', 201);
-        } catch (\Exception $e) {
-            $errorMessage = $request->input('message', 'Failed to create invoice due to a server error.');
-            ApiResponseClass::rollback($e, $errorMessage);
-        }
+
+        $invoiceDetail = $request->validated();
+        $invoice = $this->invoiceRepository->store($invoiceDetail);
+        return ApiResponseClass::sendResponse($invoice, 'Invoice created successfully', 201);
     }
+
 
     public function update(int $id, StoreInvoiceRequest $request)
     {
-        $detail = [
-            'Customer_Name' => $request->Customer_Name,
-            'Total' => $request->Total,
-            'fruits' => $request->fruits,
-        ];
-
-        DB::beginTransaction();
-        try {
-            $data = $this->invoiceRepository->update($id, $detail);
-            DB::commit();
-            return ApiResponseClass::sendResponse($data, 'Invoice updated successfully', 200);
-        } catch (\Exception $e) {
-            $errorMessage = $request->input('message', 'Failed to update invoice due to a server error.');
-            ApiResponseClass::rollback($e, $errorMessage);
-        }
+        //
     }
 
     public function destroy(int $id)

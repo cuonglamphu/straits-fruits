@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fruit extends Model
 {
+    public $timestamps = true;
+
     protected $table = 'fruits';
 
     protected $fillable = [

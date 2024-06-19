@@ -26,6 +26,8 @@ Route::get('/manageinvoices', function () {
     return view('manageInvoices');
 })->name('manageinvoices');
 
+//pdf with id route
+Route::get('/pdf/{id}', 'App\Http\Controllers\pdfController@index')->name('pdf');
 
 
 Route::middleware('auth')->group(function () {

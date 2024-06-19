@@ -10,23 +10,50 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form>
                     <div class="p-6 text-gray-900">
-                        <div class="relative z-0 mb-5 group">
-                            <input type="text" name="floating_Category_Name" id="floating_Category_Name" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                            <label id="floating_Category_Name_Lable" for="floating_Category_Name" class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"> {{ __("Category Name") }}</label>
-                            <!-- /handle erro -->
-                            <div id="notice" class="text-red-500 mt-1 hidden text-xs italic">{{__("Category name is required")}}</div>
+                        <div class="p-6 text-gray-900 grid md:grid-cols-3">
+                            <div class="md:col-start-2 col-span-1">
+                                <div class="relative z-0 mb-5 group">
+
+
+                                    <label id="floating_Category_Name_Lable" for="floating_Category_Name" class="font-bold"> {{ __("Category Name") }}</label>
+                                    <input type="text" id="floating_Category_Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-violet-500 focus:border-yellow-500 focus:ring-yellow-500  focus:shadow-yellow-500 mt-2" placeholder="Enter category name">
+
+                                    <!-- /handle erro -->
+                                    <div id="notice" class="text-red-500 mt-1 hidden text-xl italic">{{__("Category name is required")}}</div>
+                                </div>
+                            </div>
+
                         </div>
-                        <button type="submit" class="relative float-right mb-5 rounded px-4 py-2 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yello-300 text-white hover:ring-2 hover:ring-offset-2 hover:ring-violet-950 transition-all ease-out duration-300">
-                            <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                            <span class="relative">{{ __("Submit") }}</span>
-                        </button>
+                        <div>
+                            <button id="submitBtn" type="submit" class="relative float-right mb-5 rounded px-4 py-2 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yello-300 text-white hover:ring-2 hover:ring-offset-2 hover:ring-violet-950 transition-all ease-out duration-300">
+                                <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                                <span id="submitLable" class="relative">{{ __("Submit") }}</span>
+                                <div id="spinner" class="mx-auto  h-6 w-6 animate-spin rounded-full border-b-2 border-current" />
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script>
+        const MAIN_URL = "http://localhost";
+
+        //Hide spinner and enable button
+        function hideSpinner() {
+            $('#spinner').addClass('hidden');
+            $('#submitLable').removeClass('hidden');
+            $('#submitBtn').prop('disabled', false);
+        }
+
+        //Show spinner and disable button
+        function showSpinner() {
+            $('#submitLable').addClass('hidden');
+            $('#spinner').removeClass('hidden');
+            $('#submitBtn').prop('disabled', true);
+        }
         $(document).ready(function() {
+            hideSpinner();
             //remove error message
             $('#floating_Category_Name').focus(function() {
                 $('#notice').removeClass('block');
@@ -40,6 +67,7 @@
 
             $('form').submit(function(e) {
                 e.preventDefault();
+                showSpinner();
                 var Category_Name = $('#floating_Category_Name').val();
                 $.ajax({
                     url: "{{ route('categories.store') }}",
@@ -49,12 +77,15 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
+
                         if (response.success == true && response.message == "Category created successfully") {
+                            hideSpinner();
                             //notice green color and show message
                             $('#notice').removeClass('hidden').addClass('block text-green-500').text(response.message);
                             //clear input
                             $('#floating_Category_Name').val('');
                         } else {
+                            hideSpinner();
                             //chang color of label and input
                             $('#floating_Category_Name').addClass('border-red-500');
                             $('#floating_Category_Name').removeClass('border-gray-300');
@@ -65,6 +96,7 @@
                         }
                     },
                     error: function(response) {
+                        hideSpinner();
                         console.log(response);
                     }
                 });

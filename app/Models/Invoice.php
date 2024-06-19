@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+
+    public $timestamps = true;
+
     protected $table = 'invoices';
 
     protected $fillable = [

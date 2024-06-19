@@ -1,4 +1,5 @@
 <x-app-layout>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Fruit Registration') }}
@@ -40,15 +41,16 @@
                             </div>
                             <!-- Notice -->
                             <div class="mb-4">
-                                <p id="notice" class="  hidden text-xs italic"></p>
+                                <p id="notice" class="  hidden text-xl italic"></p>
                             </div>
 
 
                             <!-- Submit Button -->
                             <div class="flex justify-end">
-                                <button type="submit" class="relative float-right mb-5 rounded px-4 py-2 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-300 text-white hover:ring-2 hover:ring-offset-2 hover:ring-violet-950 transition-all ease-out duration-300">
+                                <button id="submitBtn" type="submit" class="relative float-right mb-5 rounded px-4 py-2 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-300 text-white hover:ring-2 hover:ring-offset-2 hover:ring-violet-950 transition-all ease-out duration-300">
                                     <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                                    <span class="relative">{{ __("Submit") }}</span>
+                                    <span id="submitLable" class="relative">{{ __("Submit") }}</span>
+                                    <div id="spinner" class="mx-auto  h-6 w-6 animate-spin rounded-full border-b-2 border-current" />
                                 </button>
                             </div>
                         </form>
@@ -58,11 +60,28 @@
         </div>
     </div>
     <script>
+        const MAIN_URL = "http://localhost";
+
+        //Hide spinner and enable button
+        function hideSpinner() {
+            $('#spinner').addClass('hidden');
+            $('#submitLable').removeClass('hidden');
+            $('#submitBtn').prop('disabled', false);
+        }
+
+        //Show spinner and disable button
+        function showSpinner() {
+
+            $('#submitLable').addClass('hidden');
+            $('#spinner').removeClass('hidden');
+            $('#submitBtn').prop('disabled', true);
+        }
         $(document).ready(function() {
+            hideSpinner();
             // Function to load categories from API
             function loadCategories() {
                 $.ajax({
-                    url: 'http://localhost/api/categories',
+                    url: MAIN_URL + "/api/categories",
                     type: 'GET',
                     success: function(response) {
                         var categorySelect = $('#category');
@@ -80,7 +99,7 @@
             // Function to load units from API
             function loadUnits() {
                 $.ajax({
-                    url: 'http://localhost/api/units',
+                    url: MAIN_URL + "/api/units",
                     type: 'GET',
                     success: function(response) {
                         var unitSelect = $('#unit');
@@ -101,6 +120,7 @@
 
             // Submit form
             $('form').submit(function(e) {
+                showSpinner();
                 //handle notice
                 $('#notice').removeClass('block');
                 $('#notice').removeClass('text-red-500');
@@ -114,7 +134,7 @@
                 let price = $('#price').val();
                 let unit = $('#unit').val();
                 $.ajax({
-                    url: 'http://localhost/api/fruits',
+                    url: MAIN_URL + "/api/fruits",
                     type: 'POST',
                     data: {
                         //token
@@ -130,16 +150,23 @@
                         if (response.success) {
                             //notice
                             $('#notice').removeClass('hidden').addClass('block text-green-500').text('Fruit registered successfully');
+                            //clear input
+                            loadCategories();
+                            loadUnits();
+                            $('#fruitsName').val('');
+                            $('#price').val('0.01');
                         } else {
                             //notice
                             let errors = response.data;
                             let firstKey = Object.keys(errors)[0];
                             let firstError = errors[firstKey][0];
-                            $('#notice').removeClass('hidden').addClass('block text-red-500').text(firstError);
+                            $('#notice').removeClass('hidden').addClass('block text-red-500').text('Opp! ' + firstError);
                         }
+                        hideSpinner();
                     },
                     error: function(response) {
                         console.log(response);
+                        hideSpinner();
                     }
                 });
             });
