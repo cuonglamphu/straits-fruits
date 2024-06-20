@@ -6,7 +6,7 @@ services:
     php:
         build: .docker/php
         ports:
-            - 5173:5173
+            - 9000:9000
         volumes:
             - .:/var/www:cached
 
