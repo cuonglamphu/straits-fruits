@@ -1,4 +1,32 @@
-Main_URL = "http://localhost/";
+Main_URL = "https://sfvn.vfoodie.top/";
+function showToast(toastId) {
+    $(toastId).removeClass("hidden").fadeIn(300);
+    setTimeout(function () {
+        $(toastId).fadeOut(300, function () {
+            $(this).addClass("hidden");
+        });
+    }, 3000);
+}
+function hideToast() {
+    $(".toast button").click(function () {
+        $(this)
+            .parent()
+            .fadeOut(300, function () {
+                $(this).addClass("hidden");
+            });
+    });
+
+}
+
+
+function showSpinner() {
+    $("#spinner").removeClass("hidden").addClass("block");
+    $("#saveBtn").attr("disabled", true);
+}
+function hideSpinner() {
+    $("#spinner").removeClass("block").addClass("hidden");
+    $("#saveBtn").attr("disabled", false);
+}
 $(document).ready(function () {
     console.log("Invoice page loaded");
     hideSpinner();
@@ -254,8 +282,6 @@ $(document).ready(function () {
         let csrf_token = $('meta[name="csrf-token"]').attr("content");
         let method = invoiceId ? "PUT" : "POST";
         let url = invoiceId ? `api/invoices/${invoiceId}` : `api/invoices`;
-        console.log(url);
-        console.log(method);
         $.ajax({
             url: Main_URL + url,
             type: method,
