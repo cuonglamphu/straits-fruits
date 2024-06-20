@@ -4,7 +4,22 @@
             {{ __('Category Registration') }}
         </h2>
     </x-slot>
-
+    <!-- Toats -->
+    <div id="toast-success" class="toast hidden flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+            </svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">Congrats ! your category is added ️🎉</div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+        </button>
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -12,6 +27,13 @@
                     <div class="p-6 text-gray-900">
                         <div class="p-6 text-gray-900 grid md:grid-cols-3">
                             <div class="md:col-start-2 col-span-1">
+
+                                <div class="flex justify-center">
+                                    <h1 class="flex items-center font-sans font-bold break-normal text-yellow-500 py-4 text-xl md:text-2xl">
+                                        Category Registration
+                                    </h1>
+                                    <hr>
+                                </div>
                                 <div class="relative z-0 mb-5 group">
 
 
@@ -37,21 +59,6 @@
         </div>
     </div>
     <script>
-        const MAIN_URL = "http://localhost";
-
-        //Hide spinner and enable button
-        function hideSpinner() {
-            $('#spinner').addClass('hidden');
-            $('#submitLable').removeClass('hidden');
-            $('#submitBtn').prop('disabled', false);
-        }
-
-        //Show spinner and disable button
-        function showSpinner() {
-            $('#submitLable').addClass('hidden');
-            $('#spinner').removeClass('hidden');
-            $('#submitBtn').prop('disabled', true);
-        }
         $(document).ready(function() {
             hideSpinner();
             //remove error message
@@ -80,10 +87,10 @@
 
                         if (response.success == true && response.message == "Category created successfully") {
                             hideSpinner();
-                            //notice green color and show message
-                            $('#notice').removeClass('hidden').addClass('block text-green-500').text(response.message);
                             //clear input
                             $('#floating_Category_Name').val('');
+                            //show toast
+                            showToast('#toast-success');
                         } else {
                             hideSpinner();
                             //chang color of label and input
@@ -103,7 +110,4 @@
             });
         })
     </script>
-
-
-
 </x-app-layout>

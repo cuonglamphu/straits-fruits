@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\manageInvoicesController;
+use App\Http\Controllers\pdfController;
 
 Route::get('/', function () {
     return view('invoice');
@@ -27,8 +29,14 @@ Route::get('/manageinvoices', function () {
 })->name('manageinvoices');
 
 //pdf with id route
-Route::get('/pdf/{id}', 'App\Http\Controllers\pdfController@index')->name('pdf');
+Route::get('/pdf/{id}', [pdfController::class, 'index'])->name('pdf');
+//manage invoices route
+Route::get('/manageinvoices', [manageInvoicesController::class, 'index'])->name('manageinvoices');
+//get table data route
+Route::get('/getTableData', [manageInvoicesController::class, 'getTableData'])->name('getTableData');
 
+//edit invoice
+Route::get('/invoices/{id}/edit', [manageInvoicesController::class, 'edit'])->name('invoices.edit');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

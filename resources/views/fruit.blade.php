@@ -5,12 +5,35 @@
             {{ __('Fruit Registration') }}
         </h2>
     </x-slot>
+    <!-- Toats -->
+    <div id="toast-success" class="toast hidden flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+            </svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ms-3 text-sm font-normal">Congrats ! your fruit is added ️🎉</div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+        </button>
+    </div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="md:px-64">
+                        <div class="flex justify-center">
+                            <h1 class="flex items-center font-sans font-bold break-normal text-indigo-500 py-4 text-xl md:text-2xl">
+                                🍇 Fruits Registration 🍇
+                            </h1>
+                        </div>
+                        <hr>
+                        <!--Card-->
                         <form>
                             <!-- Category -->
                             <div class="mb-4">
@@ -49,7 +72,7 @@
                             <div class="flex justify-end">
                                 <button id="submitBtn" type="submit" class="relative float-right mb-5 rounded px-4 py-2 overflow-hidden group bg-yellow-400 relative hover:bg-gradient-to-r hover:from-yellow-400 hover:to-yellow-300 text-white hover:ring-2 hover:ring-offset-2 hover:ring-violet-950 transition-all ease-out duration-300">
                                     <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                                    <span id="submitLable" class="relative">{{ __("Submit") }}</span>
+                                    <span id="submitLable" class="relative">{{ __("Save") }}</span>
                                     <div id="spinner" class="mx-auto  h-6 w-6 animate-spin rounded-full border-b-2 border-current" />
                                 </button>
                             </div>
@@ -60,28 +83,12 @@
         </div>
     </div>
     <script>
-        const MAIN_URL = "http://localhost";
-
-        //Hide spinner and enable button
-        function hideSpinner() {
-            $('#spinner').addClass('hidden');
-            $('#submitLable').removeClass('hidden');
-            $('#submitBtn').prop('disabled', false);
-        }
-
-        //Show spinner and disable button
-        function showSpinner() {
-
-            $('#submitLable').addClass('hidden');
-            $('#spinner').removeClass('hidden');
-            $('#submitBtn').prop('disabled', true);
-        }
         $(document).ready(function() {
             hideSpinner();
             // Function to load categories from API
             function loadCategories() {
                 $.ajax({
-                    url: MAIN_URL + "/api/categories",
+                    url: "api/categories",
                     type: 'GET',
                     success: function(response) {
                         var categorySelect = $('#category');
@@ -99,7 +106,7 @@
             // Function to load units from API
             function loadUnits() {
                 $.ajax({
-                    url: MAIN_URL + "/api/units",
+                    url: "api/units",
                     type: 'GET',
                     success: function(response) {
                         var unitSelect = $('#unit');
@@ -134,7 +141,7 @@
                 let price = $('#price').val();
                 let unit = $('#unit').val();
                 $.ajax({
-                    url: MAIN_URL + "/api/fruits",
+                    url: "api/fruits",
                     type: 'POST',
                     data: {
                         //token
@@ -148,13 +155,13 @@
                     success: function(response) {
                         console.log(fruitsName);
                         if (response.success) {
-                            //notice
-                            $('#notice').removeClass('hidden').addClass('block text-green-500').text('Fruit registered successfully');
-                            //clear input
+                            //reset form
                             loadCategories();
                             loadUnits();
                             $('#fruitsName').val('');
                             $('#price').val('0.01');
+                            //show toast
+                            showToast('#toast-success');
                         } else {
                             //notice
                             let errors = response.data;

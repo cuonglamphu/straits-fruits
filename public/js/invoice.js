@@ -1,22 +1,23 @@
-const MAIN_URL = "http://localhost";
-
-//Hide spinner and enable button
-function hideSpinner() {
-    $("#spinner").addClass("hidden");
-    $("#submitLable").removeClass("hidden");
-    $("#saveBtn").removeClass("bg-violet-900");
-}
-
-//Show spinner and disable button
-function showSpinner() {
-    $("#submitLable").addClass("hidden");
-    $("#saveBtn").removeClass("bg-violet-900");
-    $("#spinner").removeClass("hidden");
-}
-
+Main_URL = "http://localhost/";
 $(document).ready(function () {
+    console.log("Invoice page loaded");
     hideSpinner();
     let smartId = 1;
+    let invoiceId = $("#invoiceId").val(); // Lấy ID hóa đơn nếu có (dành cho chế độ chỉnh sửa)
+    let customerName = $("#customerName").val();
+    if (invoiceId) {
+        // Binding dữ liệu khách hàng
+        $("#customer_name").val(customerName);
+
+        // Binding các hàng item
+        let invoiceItems = window.invoiceItems || [];
+        console.log(invoiceItems);
+        invoiceItems.forEach(function (item) {
+            appendRow(item);
+        });
+    } else {
+        loadFirstRow();
+    }
 
     function prepareData(rowId = 1) {
         loadFruits(1, $(`#fruit_${rowId}`));
@@ -27,11 +28,9 @@ $(document).ready(function () {
         appendRow();
     }
 
-    loadFirstRow();
-
     function loadCategories(categorySelect) {
         $.ajax({
-            url: MAIN_URL + "/api/categories",
+            url: Main_URL + "api/categories",
             type: "GET",
             success: function (response) {
                 categorySelect.empty();
@@ -49,7 +48,7 @@ $(document).ready(function () {
 
     function loadFruits(categoryId, fruitSelect) {
         $.ajax({
-            url: MAIN_URL + "/api/fruits/category/" + categoryId,
+            url: Main_URL + "api/fruits/category/" + categoryId,
             type: "GET",
             success: function (response) {
                 fruitSelect.empty();
@@ -57,13 +56,13 @@ $(document).ready(function () {
                     fruitSelect.append(new Option(fruit.Fruit_Name, fruit.id));
                 });
             },
-            error: function () {
-                alert("Failed to load fruits");
+            error: function (response) {
+                console.log(response);
             },
         });
     }
 
-    function appendRow() {
+    function appendRow(item = null) {
         let row = `<tr>
             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                 <div class="flex items-center">
@@ -112,6 +111,16 @@ $(document).ready(function () {
         let amountField = $(`#amount_${smartId}`);
         let quantityField = $(`#quantity_${smartId}`);
 
+        if (item) {
+            categorySelect.val(item.Category_ID);
+            fruitSelect.data("selected", item.Fruit_ID);
+            quantityField.val(item.Quantity);
+            priceField.text(item.Price);
+            unitField.text(item.Unit);
+            amountField.text((item.Quantity * item.Price).toFixed(2));
+            updateTotal();
+        }
+
         quantityField.on("input", function () {
             let quantity = parseFloat(quantityField.val()) || 0;
             let price = parseFloat(priceField.text()) || 0;
@@ -148,7 +157,7 @@ $(document).ready(function () {
 
     function loadUnit(unitId, unitField) {
         $.ajax({
-            url: MAIN_URL + "/api/units/" + unitId,
+            url: Main_URL + "api/units/" + unitId,
             type: "GET",
             success: function (response) {
                 unitField.text(response.data.Unit_Name);
@@ -161,7 +170,7 @@ $(document).ready(function () {
 
     function loadPriceAndUnit(fruitId, priceField, unitField) {
         $.ajax({
-            url: MAIN_URL + "/api/fruits/" + fruitId,
+            url: Main_URL + "api/fruits/" + fruitId,
             type: "GET",
             success: function (response) {
                 let fruit = response.data;
@@ -243,9 +252,13 @@ $(document).ready(function () {
         });
 
         let csrf_token = $('meta[name="csrf-token"]').attr("content");
+        let method = invoiceId ? "PUT" : "POST";
+        let url = invoiceId ? `api/invoices/${invoiceId}` : `api/invoices`;
+        console.log(url);
+        console.log(method);
         $.ajax({
-            url: MAIN_URL + "/api/invoices",
-            type: "POST",
+            url: Main_URL + url,
+            type: method,
             data: {
                 _token: csrf_token,
                 Customer_Name: customerName,
@@ -255,10 +268,13 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     hideSpinner();
-                    alert("Invoice saved successfully");
-                    let invoiceId = parseInt(response.data.id);
-                    //opne the invoice
-                    window.open(MAIN_URL + "/pdf/" + invoiceId);
+                    showToast("#toast-success");
+                    //reload the page
+                    if (invoiceId) {
+                        location.href = `/manageinvoices`;
+                    } else {
+                        location.reload();
+                    }
                 } else {
                     hideSpinner();
                     let errors = response.data;

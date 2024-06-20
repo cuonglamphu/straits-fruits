@@ -1,7 +1,6 @@
 @php
 use Carbon\Carbon;
 @endphp
-
 <!DOCTYPE html>
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
@@ -95,7 +94,7 @@ use Carbon\Carbon;
                             <div id="fruitName" class="font-medium text-gray-900">{{$item->Fruit_Name}}</div>
                             <div id="category" class="mt-1 truncate text-gray-500">{{$item->Category_Name}}</div>
                         </td>
-                        <td id="quantity" class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">{{$item->Category_Name}}</td>
+                        <td id="quantity" class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">{{$item->Quantity}}</td>
                         <td id="unit" class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">{{$item->Unit_Name}}</td>
                         <td id="price" class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">{{$item->Price}}</td>
                         <td id="amount" class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">{{$item->Amount}}</td>

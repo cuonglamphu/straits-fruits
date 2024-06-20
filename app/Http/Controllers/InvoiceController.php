@@ -46,7 +46,9 @@ class InvoiceController extends Controller
 
     public function update(int $id, StoreInvoiceRequest $request)
     {
-        //
+        $invoiceDetail = $request->validated();
+        $invoice = $this->invoiceRepository->update($invoiceDetail, $id);
+        return ApiResponseClass::sendResponse($invoice, 'Invoice updated successfully', 200);
     }
 
     public function destroy(int $id)
