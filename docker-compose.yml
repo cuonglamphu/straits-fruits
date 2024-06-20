@@ -29,6 +29,7 @@ services:
             - php
         environment:
             - VIRTUAL_HOST=sfvn.vfoodie.top
+            - LETSENCRYPT_HOST=sfvn.vfoodie.top
 
     ####################################################################################################
     # Nginx Proxy
@@ -44,11 +45,13 @@ services:
             - ./certs:/etc/nginx/certs
             - ./vhost.d:/etc/nginx/vhost.d
             - ./html:/usr/share/nginx/html
+        environment:
+            - DEFAULT_HOST=sfvn.vfoodie.top
         labels:
             - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
 
     ####################################################################################################
-    # Letencryp 
+    # Letencryp
     ####################################################################################################
     letsencrypt:
         image: jrcs/letsencrypt-nginx-proxy-companion

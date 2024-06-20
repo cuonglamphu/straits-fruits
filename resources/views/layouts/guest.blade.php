@@ -14,7 +14,6 @@
 
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700">
-
     <!-- Fonts Awsome -->
     <script src="https://kit.fontawesome.com/a2d5e3b1ee.js" crossorigin="anonymous"></script>
     <!-- Styles Development
