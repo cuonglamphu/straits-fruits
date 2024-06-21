@@ -15,7 +15,6 @@ function hideToast() {
                 $(this).addClass("hidden");
             });
     });
-
 }
 
 function showSpinner() {
@@ -28,19 +27,16 @@ function hideSpinner() {
     $("#submitLable").removeClass("hidden");
     $("#saveBtn").attr("disabled", false);
 }
+
 $(document).ready(function () {
     console.log("Invoice page loaded");
     hideSpinner();
     let smartId = 1;
-    let invoiceId = $("#invoiceId").val(); // Lấy ID hóa đơn nếu có (dành cho chế độ chỉnh sửa)
+    let invoiceId = $("#invoiceId").val();
     let customerName = $("#customerName").val();
     if (invoiceId) {
-        // Binding dữ liệu khách hàng
         $("#customer_name").val(customerName);
-
-        // Binding các hàng item
         let invoiceItems = window.invoiceItems || [];
-        console.log(invoiceItems);
         invoiceItems.forEach(function (item) {
             appendRow(item);
         });
@@ -131,7 +127,6 @@ $(document).ready(function () {
         </tr>`;
 
         $("tbody").append(row);
-        prepareData(smartId);
 
         let fruitSelect = $(`#fruit_${smartId}`);
         let categorySelect = $(`#category_${smartId}`);
@@ -148,6 +143,8 @@ $(document).ready(function () {
             unitField.text(item.Unit);
             amountField.text((item.Quantity * item.Price).toFixed(2));
             updateTotal();
+        } else {
+            prepareData(smartId);
         }
 
         quantityField.on("input", function () {
@@ -266,7 +263,6 @@ $(document).ready(function () {
         let customerName = $("#customer_name").val();
         let total = parseFloat($("#total_amount").text()) || 0;
         let items = [];
-
 
         $("table tbody tr").each(function () {
             let fruitId = $(this).find(".fruit_value").val();

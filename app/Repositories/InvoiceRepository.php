@@ -5,6 +5,7 @@ namespace App\Repositories;
 use FFI\Exception;
 use Illuminate\Support\Facades\DB;
 use App\Interfaces\InvoiceRepositoryInterface;
+use App\Models\Category;
 use App\Models\FruitInvoice;
 use App\Models\Invoice;
 use Carbon\Carbon;
@@ -97,7 +98,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             //joint category table to get category name
             ->join('categories', 'fruits.category_id', '=', 'categories.id')
             ->where('invoice_id', $id)
-            ->select('fruits.Fruit_Name', 'categories.Category_Name', 'fruits.Price',  'units.Unit_Name', 'fruit_invoice.Quantity', 'fruit_invoice.Amount')
+            ->select('fruits.id', 'fruits.Fruit_Name', 'categories.id', 'categories.Category_Name', 'fruits.Price',  'units.Unit_Name', 'fruit_invoice.Quantity', 'fruit_invoice.Amount')
             ->get();
         return $invoiceItems;
     }
