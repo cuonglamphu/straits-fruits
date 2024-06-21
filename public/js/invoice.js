@@ -29,9 +29,9 @@ function hideSpinner() {
 }
 
 $(document).ready(function () {
-    console.log("Invoice page loaded");
     hideSpinner();
     let smartId = 1;
+
     let invoiceId = $("#invoiceId").val();
     let customerName = $("#customerName").val();
     if (invoiceId) {
@@ -136,8 +136,12 @@ $(document).ready(function () {
         let quantityField = $(`#quantity_${smartId}`);
 
         if (item) {
+            // load adn bind the data from the item object
+            categorySelect.append(new Option(item.Category_Name, item.category_id));
             categorySelect.val(item.category_id);
-            fruitSelect.data("selected", item.fruit_id);
+            fruitSelect.append(new Option(item.Fruit_Name, item.fruit_id));
+            fruitSelect.val(item.fruit_id);
+            loadFruits(item.category_id, fruitSelect);
             quantityField.val(item.Quantity);
             priceField.text(item.Price);
             unitField.text(item.Unit_Name);
@@ -156,7 +160,6 @@ $(document).ready(function () {
         });
 
         loadCategories(categorySelect);
-
         categorySelect.change(function () {
             let categoryId = $(this).val();
             loadFruits(categoryId, fruitSelect);
