@@ -137,17 +137,22 @@ $(document).ready(function () {
 
         if (item) {
             // load adn bind the data from the item object
-            categorySelect.append(new Option(item.Category_Name, item.category_id));
+            loadCategories(categorySelect);
+            categorySelect.append(
+                new Option(item.Category_Name, item.category_id)
+            );
             categorySelect.val(item.category_id);
+
+            loadFruits(item.category_id, fruitSelect);
             fruitSelect.append(new Option(item.Fruit_Name, item.fruit_id));
             fruitSelect.val(item.fruit_id);
-            loadFruits(item.category_id, fruitSelect);
             quantityField.val(item.Quantity);
             priceField.text(item.Price);
             unitField.text(item.Unit_Name);
             amountField.text((item.Quantity * item.Price).toFixed(2));
             updateTotal();
         } else {
+            loadCategories(categorySelect);
             prepareData(smartId);
         }
 
@@ -159,7 +164,6 @@ $(document).ready(function () {
             updateTotal();
         });
 
-        loadCategories(categorySelect);
         categorySelect.change(function () {
             let categoryId = $(this).val();
             loadFruits(categoryId, fruitSelect);
