@@ -53,7 +53,7 @@ $(document).ready(function () {
         appendRow();
     }
 
-    function loadCategories(categorySelect) {
+    function loadCategories(categorySelect, callback = null) {
         $.ajax({
             url: Main_URL + "api/categories",
             type: "GET",
@@ -64,6 +64,7 @@ $(document).ready(function () {
                         new Option(category.Category_Name, category.Category_Id)
                     );
                 });
+                if (callback) callback();
             },
             error: function () {
                 console.error("Failed to load categories");
@@ -71,7 +72,7 @@ $(document).ready(function () {
         });
     }
 
-    function loadFruits(categoryId, fruitSelect) {
+    function loadFruits(categoryId, fruitSelect, callback = null) {
         $.ajax({
             url: Main_URL + "api/fruits/category/" + categoryId,
             type: "GET",
@@ -80,6 +81,7 @@ $(document).ready(function () {
                 response.data.forEach(function (fruit) {
                     fruitSelect.append(new Option(fruit.Fruit_Name, fruit.id));
                 });
+                if (callback) callback();
             },
             error: function (response) {
                 console.log(response);
@@ -136,21 +138,17 @@ $(document).ready(function () {
         let quantityField = $(`#quantity_${smartId}`);
 
         if (item) {
-            // load adn bind the data from the item object
-            loadCategories(categorySelect);
-            categorySelect.append(
-                new Option(item.Category_Name, item.category_id)
-            );
-            categorySelect.val(item.category_id);
-
-            loadFruits(item.category_id, fruitSelect);
-            fruitSelect.append(new Option(item.Fruit_Name, item.fruit_id));
-            fruitSelect.val(item.fruit_id);
-            quantityField.val(item.Quantity);
-            priceField.text(item.Price);
-            unitField.text(item.Unit_Name);
-            amountField.text((item.Quantity * item.Price).toFixed(2));
-            updateTotal();
+            loadCategories(categorySelect, function () {
+                categorySelect.val(item.category_id);
+                loadFruits(item.category_id, fruitSelect, function () {
+                    fruitSelect.val(item.fruit_id);
+                    quantityField.val(item.Quantity);
+                    priceField.text(item.Price);
+                    unitField.text(item.Unit_Name);
+                    amountField.text((item.Quantity * item.Price).toFixed(2));
+                    updateTotal();
+                });
+            });
         } else {
             loadCategories(categorySelect);
             prepareData(smartId);
@@ -172,9 +170,11 @@ $(document).ready(function () {
         fruitSelect.change(function () {
             let fruitId = $(this).val();
             loadPriceAndUnit(fruitId, priceField, unitField);
+            quantityField.val(1);
             priceField.text("");
             amountField.text("");
         });
+
         smartId++;
     }
 
