@@ -98,7 +98,16 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             //joint category table to get category name
             ->join('categories', 'fruits.category_id', '=', 'categories.id')
             ->where('invoice_id', $id)
-            ->select('fruits.id', 'fruits.Fruit_Name', 'categories.id', 'categories.Category_Name', 'fruits.Price',  'units.Unit_Name', 'fruit_invoice.Quantity', 'fruit_invoice.Amount')
+            ->select(
+                'fruits.id as fruit_id',
+                'fruits.Fruit_Name',
+                'categories.id as category_id',
+                'categories.Category_Name',
+                'fruits.Price',
+                'units.Unit_Name',
+                'fruit_invoice.Quantity',
+                'fruit_invoice.Amount'
+            )
             ->get();
         return $invoiceItems;
     }

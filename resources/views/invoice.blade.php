@@ -95,7 +95,9 @@
     @if(isset($invoiceItems))
     <script>
         window.invoiceItems = <?php echo json_encode($invoiceItems); ?>;
+        console.log(window.invoiceItems);
     </script>
+
     @endif
     <script src="/js/invoice.js"></script>
 </x-app-layout>

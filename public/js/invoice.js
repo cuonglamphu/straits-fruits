@@ -136,11 +136,11 @@ $(document).ready(function () {
         let quantityField = $(`#quantity_${smartId}`);
 
         if (item) {
-            categorySelect.val(item.Category_ID);
-            fruitSelect.data("selected", item.Fruit_ID);
+            categorySelect.val(item.category_id);
+            fruitSelect.data("selected", item.fruit_id);
             quantityField.val(item.Quantity);
             priceField.text(item.Price);
-            unitField.text(item.Unit);
+            unitField.text(item.Unit_Name);
             amountField.text((item.Quantity * item.Price).toFixed(2));
             updateTotal();
         } else {
