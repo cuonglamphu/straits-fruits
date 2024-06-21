@@ -139,8 +139,9 @@ use Carbon\Carbon;
                         data: 'Total',
                         className: 'text-center',
                         render: function(data, type, row) {
-                            if (typeof data === 'number') {
-                                return `$${data.toFixed(2)}`;
+                            let number = parseFloat(data);
+                            if (!isNaN(number)) {
+                                return `$${number.toFixed(2)}`;
                             } else {
                                 return '$0.00';
                             }

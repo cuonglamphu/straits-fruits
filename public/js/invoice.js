@@ -18,13 +18,14 @@ function hideToast() {
 
 }
 
-
 function showSpinner() {
     $("#spinner").removeClass("hidden").addClass("block");
+    $("#submitLable").addClass("hidden");
     $("#saveBtn").attr("disabled", true);
 }
 function hideSpinner() {
     $("#spinner").removeClass("block").addClass("hidden");
+    $("#submitLable").removeClass("hidden");
     $("#saveBtn").attr("disabled", false);
 }
 $(document).ready(function () {
@@ -265,6 +266,7 @@ $(document).ready(function () {
         let customerName = $("#customer_name").val();
         let total = parseFloat($("#total_amount").text()) || 0;
         let items = [];
+
 
         $("table tbody tr").each(function () {
             let fruitId = $(this).find(".fruit_value").val();
