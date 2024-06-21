@@ -73,9 +73,6 @@ use Carbon\Carbon;
             </div>
         </div>
     </div>
-
-
-
     <div class="py-12">
         <div class="max-w-10xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -142,7 +139,11 @@ use Carbon\Carbon;
                         data: 'Total',
                         className: 'text-center',
                         render: function(data, type, row) {
-                            return `$${data.toFixed(2)}`;
+                            if (typeof data === 'number') {
+                                return `$${data.toFixed(2)}`;
+                            } else {
+                                return '$0.00';
+                            }
                         }
                     },
                     {
