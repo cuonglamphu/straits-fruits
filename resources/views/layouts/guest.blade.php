@@ -20,6 +20,8 @@
         <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!--  refresh the page when it gets to the end of the session. -->
+    <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
@@ -31,7 +33,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
@@ -120,7 +122,7 @@
         </div>
     </header>
 
-    <main class="flex-grow grid grid-cols-12" >
+    <main class="flex-grow grid grid-cols-12">
         <div class="col-span-12 p-6">
             {{ $slot }}
         </div>
