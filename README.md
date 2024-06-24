@@ -1,7 +1,6 @@
 ﻿<a id="readme-top"></a>
 
 [![LinkedIn][linkedin-shield]][linkedin-url]
-[![Deploy Laravel Application](https://github.com/cuonglamphu/Straits-Fruits/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/cuonglamphu/Straits-Fruits/actions/workflows/deploy.yml)
 <!-- Shields.io URLs -->
 
 [linkedin-shield]: https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin
