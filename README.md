@@ -23,7 +23,6 @@
      <br />
   </a>
     <br />
-    ·
     <a href="https://github.com/cuonglamphu/straits-fruits/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/cuonglamphu/straits-fruits/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
